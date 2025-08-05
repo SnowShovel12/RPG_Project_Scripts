@@ -15,19 +15,19 @@ public class AttackState : State<Monster>
     {
         if (_lookAndAttack != null)
         {
-            context.StopCoroutine(_lookAndAttack);
+            _context.StopCoroutine(_lookAndAttack);
         }
-        _lookAndAttack = context.StartCoroutine(LookAndAttack());
+        _lookAndAttack = _context.StartCoroutine(LookAndAttack());
     }
 
     public override void OnExitState()
     {
         if (_lookAndAttack != null)
         {
-            context.StopCoroutine(_lookAndAttack);
+            _context.StopCoroutine(_lookAndAttack);
             _lookAndAttack = null;
         }
-        context.attackController.StopAttack();
+        _context.attackController.StopAttack();
     }
 
     public override void Update(float deltaTime)
@@ -39,23 +39,23 @@ public class AttackState : State<Monster>
     {
         while (true)
         {
-            if (context.Target == null)
+            if (_context.Target == null)
             {
                 yield break;
             }
 
-            Vector3 direction = (context.Target.position - context.transform.position).normalized;
+            Vector3 direction = (_context.Target.position - _context.transform.position).normalized;
             direction.y = 0;
 
             if (direction != Vector3.zero)
             {
                 Quaternion targetRotation = Quaternion.LookRotation(direction);
-                context.transform.rotation = Quaternion.Slerp(context.transform.rotation, targetRotation, Time.deltaTime * _rotationSpeed);
+                _context.transform.rotation = Quaternion.Slerp(_context.transform.rotation, targetRotation, Time.deltaTime * _rotationSpeed);
 
-                float angle = Quaternion.Angle(context.transform.rotation, targetRotation);
+                float angle = Quaternion.Angle(_context.transform.rotation, targetRotation);
                 if (angle < _threshold)
                 {
-                    context.attackController.ExecuteAttack();
+                    _context.attackController.ExecuteAttack();
                     yield break;
                 }
             }

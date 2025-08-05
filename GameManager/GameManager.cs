@@ -12,8 +12,8 @@ public class GameManager : MonoBehaviour
     public PoolManager hitboxPoolManager;
     public MonsterPoolManager monsterPoolManager;
 
-    private bool isPaused = false;
-    public bool IsPaused => isPaused;
+    private bool _isPaused = false;
+    public bool IsPaused => _isPaused;
 
     private void Awake()
     {
@@ -34,18 +34,18 @@ public class GameManager : MonoBehaviour
     public void PauseGame()
     {
         Time.timeScale = 0f;
-        isPaused = true;
+        _isPaused = true;
     }
 
     public void ResumeGame()
     {
         Time.timeScale = 1f;
-        isPaused = false;
+        _isPaused = false;
     }
 
     public void TogglePause()
     {
-        if (isPaused)
+        if (_isPaused)
             ResumeGame();
         else
             PauseGame();

@@ -18,43 +18,43 @@ public class ModifiableValue
     public StatType Type => type;
     public int baseValue;
 
-    private int addValue;
-    private int multiplyValue;
+    private int _addValue;
+    private int _multiplyValue;
 
-    private int modifiedValue;
-    public int ModifiedValue => modifiedValue;
+    private int _modifiedValue;
+    public int ModifiedValue => _modifiedValue;
 
-    private List<Modifier> modifiers = new List<Modifier>();
+    private List<Modifier> _modifiers = new List<Modifier>();
 
     public void AddModifier(Modifier modifier)
     {
-        modifiers.Add(modifier);
+        _modifiers.Add(modifier);
         ModifyValue();
     }
 
     public void RemoveModifier(Modifier modifier)
     {
-        modifiers.Remove(modifier); 
+        _modifiers.Remove(modifier); 
         ModifyValue();
     }
 
     public void ModifyValue()
     {
-        addValue = 0;
-        multiplyValue = 0;
-        foreach (Modifier modifier in modifiers)
+        _addValue = 0;
+        _multiplyValue = 0;
+        foreach (Modifier modifier in _modifiers)
         {
             if (modifier.statType == type)
             {
-                if (modifier.type == ModifierType.Add) addValue += modifier.value;
-                else if (modifier.type == ModifierType.Multiply) multiplyValue += modifier.value;
+                if (modifier.type == ModifierType.Add) _addValue += modifier.value;
+                else if (modifier.type == ModifierType.Multiply) _multiplyValue += modifier.value;
             }
         }
-        modifiedValue = (int)Math.Round((baseValue + addValue) * (1 + multiplyValue / 100f));
+        _modifiedValue = (int)Math.Round((baseValue + _addValue) * (1 + _multiplyValue / 100f));
     }
 
     public void ClearModifier()
     {
-        modifiers.Clear();
+        _modifiers.Clear();
     }
 }

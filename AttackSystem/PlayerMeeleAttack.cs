@@ -16,8 +16,8 @@ public class PlayerMeleeAttack : PlayerAttack
 
     public override void ExecuteAttack()
     {
-        player.animator.SetBool(attackHash, true);
-        player.animator.SetInteger(attackIndexHash, animationIndex);
+        player.animator.SetBool(_attackHash, true);
+        player.animator.SetInteger(_attackIndexHash, animationIndex);
         player.LookHandleDirection();
     }
 

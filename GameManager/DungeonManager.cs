@@ -9,8 +9,8 @@ public class DungeonManager : MonoBehaviour
     public static DungeonManager Instance { get; private set; }
 
     public PlayerController player;
-    private GameObject currentDungeonInstance;
-    private NavMeshDataInstance currentNavMesh;
+    private GameObject _currentDungeonInstance;
+    private NavMeshDataInstance _currentNavMesh;
     public ScreenFader screenFader;
     [SerializeField]
     private CinemachineConfiner3D cameraConfiner;
@@ -42,24 +42,24 @@ public class DungeonManager : MonoBehaviour
     {
         yield return screenFader.FadeOut();
 
-        if (currentDungeonInstance != null)
+        if (_currentDungeonInstance != null)
         {
-            Destroy(currentDungeonInstance);
+            Destroy(_currentDungeonInstance);
         }
 
         GameManager.Instance.monsterPoolManager.DisableAllObjects();
         GameManager.Instance.hitboxPoolManager.DisableAllObjects();
 
-        if (currentNavMesh.valid)
+        if (_currentNavMesh.valid)
         {
-            currentNavMesh.Remove();
+            _currentNavMesh.Remove();
         }
 
-        currentDungeonInstance = dungeon.CreateDungeon();
+        _currentDungeonInstance = dungeon.CreateDungeon();
 
         if (dungeon.bakedNavMesh != null)
         {
-            currentNavMesh = NavMesh.AddNavMeshData(dungeon.bakedNavMesh, currentDungeonInstance.transform.position, currentDungeonInstance.transform.rotation);
+            _currentNavMesh = NavMesh.AddNavMeshData(dungeon.bakedNavMesh, _currentDungeonInstance.transform.position, _currentDungeonInstance.transform.rotation);
         }
 
         player.WarpTo(spawnPosition);

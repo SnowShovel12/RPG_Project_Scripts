@@ -19,13 +19,13 @@ public class RandMoveIdleState : State<Monster>
 
     public override void Update(float deltaTime)
     {
-        if (context.Target != null)
+        if (_context.Target != null)
         {
-            stateMachine.ChangeState<MoveState>();
+            _stateMachine.ChangeState<MoveState>();
         }
         else
         {
-            stateMachine.ChangeState<RandomMoveState>();
+            _stateMachine.ChangeState<RandomMoveState>();
         }
     }
 }

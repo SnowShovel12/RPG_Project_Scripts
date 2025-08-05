@@ -16,7 +16,6 @@ public static class MouseData
 public abstract class InventoryUI : MonoBehaviour
 {
     public InventorySO inventoryObject;
-    private InventorySO previousInventoryObject;
 
     public Dictionary<GameObject, InventorySlot> slotUIs = new Dictionary<GameObject, InventorySlot>();
 

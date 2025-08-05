@@ -10,7 +10,7 @@ public class PlayerStatSO : ScriptableObject
     private int level;
     [SerializeField]
     private int exp;
-    private int RequireExp;
+    private int _RequireExp;
 
     public int Health { get; set; }
     public float Stamina {  get; set; }
@@ -49,7 +49,7 @@ public class PlayerStatSO : ScriptableObject
     {
         level = 1;
         exp = 0;
-        RequireExp = 100;
+        _RequireExp = 100;
 
         SetBaseValue(StatType.Health, 100);
         SetBaseValue(StatType.Stamina, 100);
@@ -111,7 +111,7 @@ public class PlayerStatSO : ScriptableObject
     public void LevelUp()
     {
         level += 1;
-        RequireExp = level * 100;
+        _RequireExp = level * 100;
 
         OnChangedStat?.Invoke(this);
     }
@@ -120,9 +120,9 @@ public class PlayerStatSO : ScriptableObject
     {
         exp += value;
 
-        while (exp >= RequireExp)
+        while (exp >= _RequireExp)
         {
-            exp -= RequireExp;
+            exp -= _RequireExp;
             LevelUp();
         }
 

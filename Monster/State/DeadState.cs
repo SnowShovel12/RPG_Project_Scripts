@@ -5,19 +5,19 @@ public class DeadState : State<Monster>
 {
     private Animator animator;
 
-    private float delay = 2f;
+    private float _delay = 2f;
 
-    readonly private int deadHash = Animator.StringToHash("Dead");
+    private readonly int _deadHash = Animator.StringToHash("Dead");
 
     public override void OnInitialized()
     {
-        animator = context.GetComponent<Animator>();
+        animator = _context.GetComponent<Animator>();
     }
 
     public override void OnEnterState()
     {
-        animator.SetBool(deadHash, true);
-        context.StartCoroutine(DisableWithDelay());
+        animator.SetBool(_deadHash, true);
+        _context.StartCoroutine(DisableWithDelay());
     }
 
     public override void OnExitState()
@@ -30,8 +30,8 @@ public class DeadState : State<Monster>
 
     private IEnumerator DisableWithDelay()
     {
-        yield return new WaitForSeconds(delay);
+        yield return new WaitForSeconds(_delay);
 
-        context.gameObject.SetActive(false);
+        _context.gameObject.SetActive(false);
     }
 }

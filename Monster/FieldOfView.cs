@@ -17,7 +17,7 @@ public class FieldOfView : MonoBehaviour
     private Transform nearestTarget;
     public Transform NearestTarget => nearestTarget;
     
-    private float distanceToTarget = 0f;
+    private float _distanceToTarget = 0f;
 
     private Coroutine _findTarget;
 
@@ -44,7 +44,7 @@ public class FieldOfView : MonoBehaviour
     private void FindTarget()
     {
         nearestTarget = null;
-        distanceToTarget = 0f;
+        _distanceToTarget = 0f;
 
         Collider[] targets = Physics.OverlapSphere(headTransform.position, viewDistance, targetLayer);
         foreach (Collider target in targets)
@@ -55,10 +55,10 @@ public class FieldOfView : MonoBehaviour
             if (Vector3.Angle(headTransform.forward, dirToTarget) < viewAngle / 2)
             {
                 float distance = Vector3.Distance(headTransform.position, targetTransform.position + Vector3.up);
-                if (nearestTarget == null || distance < distanceToTarget)
+                if (nearestTarget == null || distance < _distanceToTarget)
                 {
                     nearestTarget = targetTransform;
-                    distanceToTarget = distance;
+                    _distanceToTarget = distance;
                 }
             }
         }

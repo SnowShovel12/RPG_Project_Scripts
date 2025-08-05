@@ -4,19 +4,19 @@ using System.Collections.Generic;
 
 public class StatusEffectController : MonoBehaviour
 {
-    private List<StatusEffect> activeEffects = new List<StatusEffect>();
+    private List<StatusEffect> _activeEffects = new List<StatusEffect>();
 
     public IDamagable damagable;
 
     private void Start()
     {
         damagable = GetComponent<IDamagable>();
-        activeEffects.Clear();
+        _activeEffects.Clear();
     }
 
     public void AddEffect(StatusEffectSO effect, float duration)
     {
-        StatusEffect existing = activeEffects.Find(e => e.data == effect);
+        StatusEffect existing = _activeEffects.Find(e => e.data == effect);
 
         if (existing != null)
         {
@@ -33,21 +33,21 @@ public class StatusEffectController : MonoBehaviour
         }
 
         StatusEffect newEffect = new StatusEffect(effect, duration);
-        activeEffects.Add(newEffect);
+        _activeEffects.Add(newEffect);
         effect.Apply(damagable);
     }
 
     private void Update()
     {
-        for (int i = activeEffects.Count - 1; i >= 0; i--)
+        for (int i = _activeEffects.Count - 1; i >= 0; i--)
         {
-            StatusEffect e = activeEffects[i];
+            StatusEffect e = _activeEffects[i];
             e.elapsed += Time.deltaTime;
 
             if (e.elapsed >= e.duration)
             {
                 e.data.Remove(damagable);
-                activeEffects.RemoveAt(i);
+                _activeEffects.RemoveAt(i);
             }
         }
     }

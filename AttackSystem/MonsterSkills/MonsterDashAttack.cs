@@ -8,19 +8,19 @@ public class MonsterDashAttack : MonsterSkillSO
     public float dashSpeed = 10f;
     public float dashDuration = 0.5f;
 
-    private int defaultLayer = 0;
-    private int dashLayer = 0;
+    private int _defaultLayer = 0;
+    private int _dashLayer = 0;
 
     public override void Execute(Monster monster, Vector3 direction, Action onExitAttack)
     {
-        if (dashLayer == 0) dashLayer = LayerMask.NameToLayer("MonsterDash");
-        if (defaultLayer == 0) defaultLayer = LayerMask.NameToLayer("Monster");
+        if (_dashLayer == 0) _dashLayer = LayerMask.NameToLayer("MonsterDash");
+        if (_defaultLayer == 0) _defaultLayer = LayerMask.NameToLayer("Monster");
         monster.StartCoroutine(StartDash(monster, direction, onExitAttack));
     }
 
     private IEnumerator StartDash(Monster monster, Vector3 direction, Action onExitAttack)
     {
-        monster.gameObject.layer = dashLayer;
+        monster.gameObject.layer = _dashLayer;
 
         float elapsed = 0f;
         while (elapsed < dashDuration)
@@ -39,7 +39,7 @@ public class MonsterDashAttack : MonsterSkillSO
             yield return null;
         }
 
-        monster.gameObject.layer = defaultLayer;
+        monster.gameObject.layer = _defaultLayer;
 
         onExitAttack?.Invoke();
     }

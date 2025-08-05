@@ -4,63 +4,63 @@ using UnityEngine.Splines;
 
 public class MoveState : State<Monster>
 {
-    private CharacterController controller;
-    private NavMeshAgent agent;
-    private Animator animator;
+    private CharacterController _controller;
+    private NavMeshAgent _agent;
+    private Animator _animator;
 
-    private int animatorVelocityHash = Animator.StringToHash("Velocity");
+    private readonly int _animatorVelocityHash = Animator.StringToHash("Velocity");
 
-    private Vector3 currentVelocity;
+    private Vector3 _currentVelocity;
 
-    private Vector3 TargetPosition => context.Target.position;
+    private Vector3 _TargetPosition => _context.Target.position;
 
     public override void OnInitialized()
     {
-        controller = context.controller;
-        agent = context.agent;
-        animator = context.animator;
+        _controller = _context.controller;
+        _agent = _context.agent;
+        _animator = _context.animator;
     }
 
     public override void OnEnterState()
     {
-        agent.SetDestination(TargetPosition);
+        _agent.SetDestination(_TargetPosition);
     }
 
     public override void OnExitState()
     {
-        agent.ResetPath();
+        _agent.ResetPath();
     }
 
     public override void Update(float deltaTime)
     {
-        if (context.CurrentAttack != null)
+        if (_context.CurrentAttack != null)
         {
-            agent.stoppingDistance = context.AttackRange * 0.8f;
+            _agent.stoppingDistance = _context.AttackRange * 0.8f;
         }
-        agent.SetDestination(TargetPosition);
+        _agent.SetDestination(_TargetPosition);
 
-        if (agent.remainingDistance <= agent.stoppingDistance + 0.05f)
+        if (_agent.remainingDistance <= _agent.stoppingDistance + 0.05f)
         {
-            currentVelocity = Vector3.zero;
+            _currentVelocity = Vector3.zero;
         }
         else
         {
-            Vector3 desiredVelocity = new Vector3(agent.desiredVelocity.x, 0, agent.desiredVelocity.z);
-            currentVelocity = Vector3.Lerp(currentVelocity, desiredVelocity, agent.acceleration * deltaTime);
+            Vector3 desiredVelocity = new Vector3(_agent.desiredVelocity.x, 0, _agent.desiredVelocity.z);
+            _currentVelocity = Vector3.Lerp(_currentVelocity, desiredVelocity, _agent.acceleration * deltaTime);
         }
 
-        if (currentVelocity != Vector3.zero)
+        if (_currentVelocity != Vector3.zero)
         {
-            Quaternion lookRotation = Quaternion.LookRotation(currentVelocity.normalized);
-            context.transform.rotation = Quaternion.Slerp(context.transform.rotation, lookRotation, deltaTime * 10f);
+            Quaternion lookRotation = Quaternion.LookRotation(_currentVelocity.normalized);
+            _context.transform.rotation = Quaternion.Slerp(_context.transform.rotation, lookRotation, deltaTime * 10f);
         }
-        controller.Move(currentVelocity * deltaTime);
-        agent.nextPosition = context.transform.position;
-        animator.SetFloat(animatorVelocityHash, currentVelocity.magnitude / context.MoveSpeed);
+        _controller.Move(_currentVelocity * deltaTime);
+        _agent.nextPosition = _context.transform.position;
+        _animator.SetFloat(_animatorVelocityHash, _currentVelocity.magnitude / _context.MoveSpeed);
 
-        if (agent.remainingDistance <= agent.stoppingDistance + 0.1f && context.CurrentAttack != null && context.CurrentAttack.IsReady && context.IsAlive)
+        if (_agent.remainingDistance <= _agent.stoppingDistance + 0.1f && _context.CurrentAttack != null && _context.CurrentAttack.IsReady && _context.IsAlive)
         {
-            stateMachine.ChangeState<AttackState>();
+            _stateMachine.ChangeState<AttackState>();
         }
     }
 }

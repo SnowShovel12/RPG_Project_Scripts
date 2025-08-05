@@ -20,13 +20,13 @@ public class PlayerController : MonoBehaviour, IDamagable, IAttackable
 
     public Action<IAttackable> OnTakeDamage;
 
-    private readonly int velocityHash = Animator.StringToHash("Velocity");
+    private readonly int _velocityHash = Animator.StringToHash("Velocity");
 
     public float velocity = 5f;
     public float staminaRecoverCooltime = 2f;
 
 
-    private Coroutine pauseRecoverStamina;
+    private Coroutine _pauseRecoverStamina;
 
     [HideInInspector]
     public bool isAttacking = false;
@@ -106,11 +106,11 @@ public class PlayerController : MonoBehaviour, IDamagable, IAttackable
         if (input.magnitude < 0.1)
         {
             controller.Move(Vector3.zero);
-            animator.SetFloat(velocityHash, 0);
+            animator.SetFloat(_velocityHash, 0);
         }
 
         controller.Move(transform.forward * input.magnitude * velocity * deltaTime);
-        animator.SetFloat(velocityHash, input.magnitude);
+        animator.SetFloat(_velocityHash, input.magnitude);
     }
 
     public void LookHandleDirection()
@@ -130,12 +130,12 @@ public class PlayerController : MonoBehaviour, IDamagable, IAttackable
     {
         playerStat.AddStamina(-value);
 
-        if (pauseRecoverStamina != null)
+        if (_pauseRecoverStamina != null)
         {
-            StopCoroutine(pauseRecoverStamina);
+            StopCoroutine(_pauseRecoverStamina);
         }
         
-        pauseRecoverStamina = StartCoroutine(PauseRecoverStamina(staminaRecoverCooltime));
+        _pauseRecoverStamina = StartCoroutine(PauseRecoverStamina(staminaRecoverCooltime));
     }
 
     IEnumerator PauseRecoverStamina(float delay)

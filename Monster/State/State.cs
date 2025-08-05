@@ -2,13 +2,13 @@ using UnityEngine;
 
 public abstract class State<T>
 {
-    protected T context;
-    protected StateMachine<T> stateMachine;
+    protected T _context;
+    protected StateMachine<T> _stateMachine;
 
     public void SetStateMachine(StateMachine<T> stateMachine, T context)
     {
-        this.context = context;
-        this.stateMachine = stateMachine;
+        _context = context;
+        _stateMachine = stateMachine;
 
         OnInitialized();
     }

@@ -15,8 +15,8 @@ public class MonsterMeleeAttack : MonsterAttack
 
     public override void ExecuteAttack()
     {
-        monster.animator.SetBool(attackHash, true);
-        monster.animator.SetInteger(attackIndexHash, animationIndex);
+        monster.animator.SetBool(_attackHash, true);
+        monster.animator.SetInteger(_attackIndexHash, animationIndex);
     }
 
     public override void OnEnterAttack(IAttackable attacker, Transform target = null)

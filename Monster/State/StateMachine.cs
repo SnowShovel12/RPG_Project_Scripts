@@ -4,58 +4,58 @@ using System.Collections;
 
 public class StateMachine<T>
 {
-    private T context;
+    private T _context;
 
-    private State<T> currentState;
-    public State<T> CurrentState => currentState;
+    private State<T> _currentState;
+    public State<T> CurrentState => _currentState;
 
-    private State<T> priviousState;
-    public State<T> PriviousState => priviousState;
+    private State<T> _priviousState;
+    public State<T> PriviousState => _priviousState;
 
-    private Dictionary<System.Type, State<T>> states = new Dictionary<System.Type, State<T>>();
+    private Dictionary<System.Type, State<T>> _states = new Dictionary<System.Type, State<T>>();
 
-    private float elapsedTime = 0f;
-    public float ElapsedTime => elapsedTime;
+    private float _elapsedTime = 0f;
+    public float ElapsedTime => _elapsedTime;
 
     public StateMachine(T context, State<T> initialState)
     {
-        this.context = context;
+        _context = context;
 
         AddState(initialState);
-        currentState = initialState;
+        _currentState = initialState;
     }
 
     public void AddState(State<T> state)
     {
-        state.SetStateMachine(this, context);
-        states[state.GetType()] = state;
+        state.SetStateMachine(this, _context);
+        _states[state.GetType()] = state;
     }
 
     public void Update(float deltaTime)
     {
-        elapsedTime += deltaTime;
+        _elapsedTime += deltaTime;
 
-        currentState.Update(deltaTime);
+        _currentState.Update(deltaTime);
     }
 
     public R ChangeState<R>() where R : State<T>
     {
         var newType = typeof(R);
-        if (newType == currentState.GetType())
+        if (newType == _currentState.GetType())
         {
-            return currentState as R;
+            return _currentState as R;
         }
 
-        if (currentState != null)
+        if (_currentState != null)
         {
-            currentState.OnExitState();
+            _currentState.OnExitState();
         }
 
-        priviousState = currentState;
-        currentState = states[newType];
-        currentState.OnEnterState();
-        elapsedTime = 0f;
+        _priviousState = _currentState;
+        _currentState = _states[newType];
+        _currentState.OnEnterState();
+        _elapsedTime = 0f;
 
-        return currentState as R;
+        return _currentState as R;
     }
 }

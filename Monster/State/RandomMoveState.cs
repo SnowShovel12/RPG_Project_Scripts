@@ -3,48 +3,48 @@ using UnityEngine.AI;
 
 public class RandomMoveState : State<Monster>
 {
-    private CharacterController controller;
-    private NavMeshAgent agent;
-    private Animator animator;
-    private Vector3 nextPosition;
+    private CharacterController _controller;
+    private NavMeshAgent _agent;
+    private Animator _animator;
+    private Vector3 _nextPosition;
 
-    private int animatorVelocityHash = Animator.StringToHash("Velocity");
+    private readonly int _animatorVelocityHash = Animator.StringToHash("Velocity");
 
     public override void OnInitialized()
     {
-        controller = context.controller;
-        agent = context.agent;
-        animator = context.animator;
+        _controller = _context.controller;
+        _agent = _context.agent;
+        _animator = _context.animator;
     }
 
     public override void OnEnterState()
     {
-        nextPosition = SetRandomPosition(15f, 15f);
-        agent.SetDestination(nextPosition);
-        agent.stoppingDistance = 0;
+        _nextPosition = SetRandomPosition(15f, 15f);
+        _agent.SetDestination(_nextPosition);
+        _agent.stoppingDistance = 0;
     }
 
     public override void OnExitState()
     {
-        agent.ResetPath();
+        _agent.ResetPath();
     }
 
     public override void Update(float deltaTime)
     {
-        Vector3 direction = new Vector3(agent.desiredVelocity.x, 0 , agent.desiredVelocity.z);
+        Vector3 direction = new Vector3(_agent.desiredVelocity.x, 0 , _agent.desiredVelocity.z);
         if (direction != Vector3.zero)
         {
             Quaternion lookRotation = Quaternion.LookRotation(direction.normalized);
-            context.transform.rotation = Quaternion.Slerp(context.transform.rotation, lookRotation, deltaTime * 10f);
+            _context.transform.rotation = Quaternion.Slerp(_context.transform.rotation, lookRotation, deltaTime * 10f);
         }
-        controller.Move(direction * deltaTime);
-        agent.nextPosition = context.transform.position;
-        animator.SetFloat(animatorVelocityHash, direction.magnitude / context.MoveSpeed);
+        _controller.Move(direction * deltaTime);
+        _agent.nextPosition = _context.transform.position;
+        _animator.SetFloat(_animatorVelocityHash, direction.magnitude / _context.MoveSpeed);
 
-        if (agent.remainingDistance <= agent.stoppingDistance + 0.1f)
+        if (_agent.remainingDistance <= _agent.stoppingDistance + 0.1f)
         {
-            nextPosition = SetRandomPosition(15f, 15f);
-            agent.SetDestination(nextPosition);
+            _nextPosition = SetRandomPosition(15f, 15f);
+            _agent.SetDestination(_nextPosition);
         }
     }
 
@@ -53,7 +53,7 @@ public class RandomMoveState : State<Monster>
         float randomX = Random.Range(-x / 2, x / 2);
         float randomY = Random.Range(-y / 2, y / 2);
 
-        Vector3 originPosition = context.transform.position;
+        Vector3 originPosition = _context.transform.position;
         Vector3 randomPosition = originPosition + new Vector3(randomX, 0, randomY);
 
         NavMeshHit hit;

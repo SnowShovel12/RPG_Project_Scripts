@@ -19,9 +19,9 @@ public class DontMoveIdleState : State<Monster>
 
     public override void Update(float deltaTime)
     {
-        if (context.Target != null)
+        if (_context.Target != null)
         {
-            stateMachine.ChangeState<MoveState>();
+            _stateMachine.ChangeState<MoveState>();
         }
     }
 }

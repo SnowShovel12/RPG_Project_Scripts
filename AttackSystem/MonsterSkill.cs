@@ -20,13 +20,13 @@ public class MonsterSkill : MonsterAttack
 
     public override void ExecuteAttack()
     {
-        monster.animator.SetBool(attackHash, true);
-        monster.animator.SetInteger(attackIndexHash, animationIndex);
+        monster.animator.SetBool(_attackHash, true);
+        monster.animator.SetInteger(_attackIndexHash, animationIndex);
     }
 
     public override void OnEnterAttack(IAttackable attacker, Transform target = null)
     {
-        skillData?.Execute(monster, direction, OnExitAttack);
+        skillData?.Execute(monster, _direction, OnExitAttack);
         if (!withHitbox) return;
         _hitbox = GameManager.Instance.hitboxPoolManager.Get<Hitbox>(0);
         _hitbox.ActivateHitbox(GetDamage(attacker), attacker, hitboxConfig);

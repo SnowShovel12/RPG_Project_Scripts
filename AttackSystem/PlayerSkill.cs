@@ -20,10 +20,10 @@ public class PlayerSkill : PlayerAttack
 
     public override void ExecuteAttack()
     {
-        player.animator.SetBool(attackHash, true);
-        player.animator.SetInteger(attackIndexHash, animationIndex);
+        player.animator.SetBool(_attackHash, true);
+        player.animator.SetInteger(_attackIndexHash, animationIndex);
 
-        skillData?.Execute(player, direction, OnExitAttack);
+        skillData?.Execute(player, _direction, OnExitAttack);
     }
 
     public override void OnEnterAttack(IAttackable attacker, Transform target = null)

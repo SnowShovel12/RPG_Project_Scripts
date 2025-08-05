@@ -8,19 +8,19 @@ public class PlayerDashAttack : PlayerSkillSO
     public float dashSpeed = 10f;
     public float dashDuration = 0.5f;
 
-    private int defaultLayer = 0;
-    private int dashLayer = 0;
+    private int _defaultLayer = 0;
+    private int _dashLayer = 0;
 
     public override void Execute(PlayerController player, Vector3 direction, Action onExitAttack)
     {
-        if (dashLayer == 0) dashLayer = LayerMask.NameToLayer("PlayerDash");
-        if (defaultLayer == 0) defaultLayer = LayerMask.NameToLayer("Player");
+        if (_dashLayer == 0) _dashLayer = LayerMask.NameToLayer("PlayerDash");
+        if (_defaultLayer == 0) _defaultLayer = LayerMask.NameToLayer("Player");
         player.StartCoroutine(StartDash(player, direction, onExitAttack));
     }
 
     private IEnumerator StartDash(PlayerController player, Vector3 direction, Action onExitAttack)
     {
-        player.gameObject.layer = dashLayer;
+        player.gameObject.layer = _dashLayer;
 
         float elapsed = 0f;
         while (elapsed < dashDuration)
@@ -35,7 +35,7 @@ public class PlayerDashAttack : PlayerSkillSO
             yield return null;
         }
         
-        player.gameObject.layer = defaultLayer;
+        player.gameObject.layer = _defaultLayer;
 
         onExitAttack?.Invoke();
     }

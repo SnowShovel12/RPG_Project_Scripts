@@ -3,22 +3,22 @@ using UnityEngine.EventSystems;
 
 public class AttackButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
-    private bool isPointerDown = false;
+    private bool _isPointerDown = false;
     public PlayerController controller;
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        isPointerDown = true;
+        _isPointerDown = true;
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        isPointerDown = false;
+        _isPointerDown = false;
     }
 
     void Update()
     {
-        if (isPointerDown)
+        if (_isPointerDown)
         {
             controller.StartAttack();
         }

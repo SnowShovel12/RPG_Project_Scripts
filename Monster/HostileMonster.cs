@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class HostileMonster : Monster
 {
-    private FieldOfView fov;
+    private FieldOfView _fov;
 
     protected override void Awake()
     {
         base.Awake();
         stateMachine.AddState(new RandMoveIdleState());
-        fov = GetComponent<FieldOfView>();
+        _fov = GetComponent<FieldOfView>();
     }
     protected override void Start()
     {
@@ -21,7 +21,7 @@ public class HostileMonster : Monster
         base.Update();
         if (target == null)
         {
-            target = fov.NearestTarget;
+            target = _fov.NearestTarget;
             if (target != null)
             {
                 stateMachine.ChangeState<MoveState>();

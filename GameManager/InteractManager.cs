@@ -12,7 +12,7 @@ public class InteractManager : MonoBehaviour
     [SerializeField] 
     private GameObject interactButtonPrefab;
 
-    private Dictionary<IInteractable, GameObject> interactButtons = new Dictionary<IInteractable, GameObject>();
+    private Dictionary<IInteractable, GameObject> _interactButtons = new Dictionary<IInteractable, GameObject>();
 
     private void Awake()
     {
@@ -24,7 +24,7 @@ public class InteractManager : MonoBehaviour
 
     public void AddInteractButton(IInteractable interactable)
     {
-        if (interactButtons.ContainsKey(interactable)) return;
+        if (_interactButtons.ContainsKey(interactable)) return;
 
         GameObject buttonGO = Instantiate(interactButtonPrefab, buttonParent);
         Button button = buttonGO.GetComponent<Button>();
@@ -33,14 +33,14 @@ public class InteractManager : MonoBehaviour
 
         button.onClick.AddListener(() => interactable.Interact());
 
-        interactButtons.Add(interactable, buttonGO);
+        _interactButtons.Add(interactable, buttonGO);
     }
 
     public void RemoveInteractButton(IInteractable interactable)
     {
-        if (!interactButtons.ContainsKey(interactable)) return;
+        if (!_interactButtons.ContainsKey(interactable)) return;
 
-        Destroy(interactButtons[interactable]);
-        interactButtons.Remove(interactable);
+        Destroy(_interactButtons[interactable]);
+        _interactButtons.Remove(interactable);
     }
 }
