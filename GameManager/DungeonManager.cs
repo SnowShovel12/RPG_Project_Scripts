@@ -30,7 +30,7 @@ public class DungeonManager : MonoBehaviour
     {
         dungeonDB.ReviveAllMonsters();
 
-        LoadDungeonWithFade(dungeonDB.dungeons[0], initialSpawnPosition);
+        LoadDungeon(dungeonDB.dungeons[0], initialSpawnPosition);
     }
 
     public void LoadDungeonWithFade(DungeonSO dungeon, Vector3 spawnPosition)
@@ -40,8 +40,15 @@ public class DungeonManager : MonoBehaviour
 
     private IEnumerator LoadDungeonRoutine(DungeonSO dungeon, Vector3 spawnPosition)
     {
-        yield return screenFader.FadeOut();
+        yield return screenFader.FadeOut(1f);
 
+        LoadDungeon(dungeon, spawnPosition);
+
+        yield return screenFader.FadeIn(1f);
+    }
+
+    private void LoadDungeon(DungeonSO dungeon, Vector3 spawnPosition)
+    {
         if (_currentDungeonInstance != null)
         {
             Destroy(_currentDungeonInstance);
@@ -63,8 +70,6 @@ public class DungeonManager : MonoBehaviour
         }
 
         player.WarpTo(spawnPosition);
-
-        yield return screenFader.FadeIn();
     }
 
     public void SetCameraConfiner(Collider newConfiner)

@@ -4,20 +4,20 @@ using System.Collections;
 
 public class ScreenFader : MonoBehaviour
 {
-    public Image fadeImage;
-    public float fadeDuration = 1f;
+    [SerializeField]
+    private Image fadeImage;
 
-    public IEnumerator FadeOut()
+    public IEnumerator FadeOut(float fadeDuration)
     {
-        yield return StartCoroutine(Fade(0f, 1f));
+        yield return StartCoroutine(Fade(0f, 1f, fadeDuration));
     }
 
-    public IEnumerator FadeIn()
+    public IEnumerator FadeIn(float fadeDuration)
     {
-        yield return StartCoroutine(Fade(1f, 0f));
+        yield return StartCoroutine(Fade(1f, 0f, fadeDuration));
     }
 
-    private IEnumerator Fade(float from, float to)
+    private IEnumerator Fade(float from, float to, float fadeDuration)
     {
         float time = 0f;
         Color c = fadeImage.color;

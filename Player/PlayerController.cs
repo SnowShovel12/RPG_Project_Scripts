@@ -33,13 +33,16 @@ public class PlayerController : MonoBehaviour, IDamagable, IAttackable
     [HideInInspector]
     public bool canRecoverStamina = true;
 
-    void Start()
+    private void Awake()
     {
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
         attackController = GetComponent<PlayerAttackController>();
         statusEffectController = GetComponent<StatusEffectController>();
+    }
 
+    void Start()
+    {
         IsStunned = false;
         IsImmune = false;
     }
