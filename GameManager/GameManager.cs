@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public BossBar bossBar;
     public PoolManager hitboxPoolManager;
     public MonsterPoolManager monsterPoolManager;
+    public PoolManager textPoolManager;
 
     private bool _isPaused = false;
     public bool IsPaused => _isPaused;

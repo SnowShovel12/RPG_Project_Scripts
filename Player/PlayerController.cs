@@ -33,6 +33,9 @@ public class PlayerController : MonoBehaviour, IDamagable, IAttackable
     [HideInInspector]
     public bool canRecoverStamina = true;
 
+    [SerializeField]
+    private Transform battleUI;
+
     private void Awake()
     {
         controller = GetComponent<CharacterController>();
@@ -173,7 +176,13 @@ public class PlayerController : MonoBehaviour, IDamagable, IAttackable
         if (!IsAlive) return;
         OnTakeDamage?.Invoke(attacker);
 
-        if (!IsImmune)
+        if (IsImmune)
+        {
+            DamageText damageText = GameManager.Instance.textPoolManager.Get<DamageText>(0, battleUI);
+            damageText.Set("Immuned");
+        }
+
+        else
         {
             if (statusEffect != null)
             {
@@ -182,6 +191,9 @@ public class PlayerController : MonoBehaviour, IDamagable, IAttackable
             int defence = playerStat.GetModifiedValue(StatType.Defense);
             int reducedDamage = (int)Math.Round(damage * (1 - (float)defence / (defence + 100)));
             playerStat.AddHealth(-reducedDamage);
+
+            DamageText damageText = GameManager.Instance.textPoolManager.Get<DamageText>(0, battleUI);
+            damageText.Set(reducedDamage.ToString());
         }
     }
 

@@ -27,4 +27,10 @@ public class MonsterUI : MonoBehaviour
             monsterName.text = value;
         }
     }
+
+    public void CreateDamageText(string text)
+    {
+        DamageText damageText = GameManager.Instance.textPoolManager.Get<DamageText>(0, transform);
+        damageText.Set(text);
+    }
 }

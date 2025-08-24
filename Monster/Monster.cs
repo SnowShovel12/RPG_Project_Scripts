@@ -109,6 +109,22 @@ public abstract class Monster : MonoBehaviour, IDamagable, IAttackable
         MakeIdleState();
     }
 
+    public void ChangeName(string newName)
+    {
+        if (monsterUI)
+        {
+            monsterUI.MonsterName = newName;
+        }
+    }
+
+    public void ResetName()
+    {
+        if (monsterUI)
+        {
+            monsterUI.MonsterName = name;
+        }
+    }
+
     #region IDamagable
     public bool IsAlive => CurrentHealth > 0;
 
@@ -122,7 +138,15 @@ public abstract class Monster : MonoBehaviour, IDamagable, IAttackable
     {
         if (!IsAlive) return;
 
-        if (!IsImmune)
+        if (IsImmune)
+        {
+            if (monsterUI)
+            {
+                monsterUI.CreateDamageText("Immuned");
+            }
+        }
+
+        else
         {
             CurrentHealth -= damage;
 
@@ -130,11 +154,12 @@ public abstract class Monster : MonoBehaviour, IDamagable, IAttackable
             {
                 ApplyStatusEffect(statusEffect, duration);
             }
-        }
 
-        if (monsterUI)
-        {
-            monsterUI.HealthPercent = GetHealthPercent();
+            if (monsterUI)
+            {
+                monsterUI.HealthPercent = GetHealthPercent();
+                monsterUI.CreateDamageText(damage.ToString());
+            }
         }
 
         if (!IsAlive)

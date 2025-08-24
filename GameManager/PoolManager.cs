@@ -17,7 +17,7 @@ public class PoolManager : MonoBehaviour
         }
     }
 
-    public T Get<T>(int id) where T : Component
+    public T Get<T>(int id, Transform parent) where T : Component
     {
         List<int> matchingIndex = new List<int>();
         for (int i = 0; i < prefabs.Length; i++)
@@ -39,13 +39,19 @@ public class PoolManager : MonoBehaviour
             if (!go.activeSelf)
             {
                 go.SetActive(true);
+                go.transform.SetParent(parent);
                 return go.GetComponent<T>();
             }
         }
 
-        GameObject instance = Instantiate(prefabs[prefabIndex], transform);
+        GameObject instance = Instantiate(prefabs[prefabIndex], parent);
         _pools[prefabIndex].Add(instance);
         return instance.GetComponent<T>();
+    }
+
+    public T Get<T>(int id) where T : Component
+    {
+        return Get<T>(id, transform);
     }
 
     public void DisableAllObjects()
