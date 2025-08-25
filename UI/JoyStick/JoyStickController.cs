@@ -16,6 +16,11 @@ public class JoyStickController : MonoBehaviour, IDragHandler, IPointerUpHandler
         _handle = transform.GetChild(0).GetComponent<RectTransform>();
     }
 
+    private void OnDisable()
+    {
+        OnPointerUp(null);
+    }
+
     public void OnDrag(PointerEventData eventData)
     {
         Vector2 touchPosition = Vector2.zero;

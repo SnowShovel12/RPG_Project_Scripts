@@ -89,11 +89,13 @@ public class BossMonster : Monster
 
     private IEnumerator PlayBossIntro()
     {
+        GameManager.Instance.TurnUI(false);
         Camera.Priority = 20;
         _isPaused = true;
 
         yield return new WaitForSeconds(cameraDuration);
 
+        GameManager.Instance.TurnUI(true);
         Camera.Priority = 0;
         _isPaused = false;
 

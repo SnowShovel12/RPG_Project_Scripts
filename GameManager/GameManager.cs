@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private PlayerStatSO playerStat;
 
+    public GameObject ui;
     public BossBar bossBar;
     public PoolManager hitboxPoolManager;
     public MonsterPoolManager monsterPoolManager;
@@ -25,6 +26,9 @@ public class GameManager : MonoBehaviour
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
+        
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = 60;
     }
 
     private void Start()
@@ -50,6 +54,11 @@ public class GameManager : MonoBehaviour
             ResumeGame();
         else
             PauseGame();
+    }
+
+    public void TurnUI(bool set)
+    {
+        ui.SetActive(set);
     }
 
     public void ReviveAllMonsters()
