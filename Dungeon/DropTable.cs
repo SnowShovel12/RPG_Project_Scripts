@@ -14,6 +14,7 @@ public class DropTable
             weightSum += item.weight;
         }
         int randomNum = UnityEngine.Random.Range(0, weightSum);
+
         int index = 0;
         int weight = items[index].weight;
         while (randomNum > weight)

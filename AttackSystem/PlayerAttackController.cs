@@ -96,13 +96,13 @@ public class PlayerAttackController : MonoBehaviour
         }
     }
 
-    public void OnEnterAttack(int num)
+    public void OnEnterAttack(int num)  //히트박스 or 투사체 생성, 애니메이션으로 트리거
     {
         if (num >= attacks.Count || num < 0) return;
         attacks[num].OnEnterAttack(player);
     }
 
-    public void OnExitAttack(int num)
+    public void OnExitAttack(int num)  //히트박스 제거, 애니메이션으로 트리거
     {
         if (num >= attacks.Count || num < 0) return;
         attacks[num].OnExitAttack();

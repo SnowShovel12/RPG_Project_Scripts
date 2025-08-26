@@ -95,14 +95,14 @@ public class MonsterAttackController : MonoBehaviour
         }
     }
 
-    public void OnEnterAttack(int num)
+    public void OnEnterAttack(int num) //히트박스 or 투사체 생성, 애니메이션으로 트리거
     {
         RemoveAttackIndicator();
         if (num >= _attacks.Count || num < 0) return;
         _attacks[num].OnEnterAttack(_monster, target);
     }
 
-    public void OnExitAttack(int num)
+    public void OnExitAttack(int num) //히트박스 제거, 애니메이션으로 트리거
     {
         if (num >= _attacks.Count || num < 0) return;
         _attacks[num].OnExitAttack();
