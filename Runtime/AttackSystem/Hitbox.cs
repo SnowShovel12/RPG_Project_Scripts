@@ -1,8 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
-using static UnityEngine.Rendering.STP;
-using UnityEditor.Experimental.GraphView;
 
 public class Hitbox : MonoBehaviour
 {

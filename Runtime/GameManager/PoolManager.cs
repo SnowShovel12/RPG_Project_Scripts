@@ -7,6 +7,8 @@ public class PoolManager : MonoBehaviour
 
     private List<GameObject>[] _pools;
 
+    private List<int> _matchingIndex = new List<int>();
+
     private void Awake()
     {
         _pools = new List<GameObject>[prefabs.Length];
@@ -19,20 +21,20 @@ public class PoolManager : MonoBehaviour
 
     public T Get<T>(int id, Transform parent) where T : Component
     {
-        List<int> matchingIndex = new List<int>();
+        _matchingIndex.Clear();
         for (int i = 0; i < prefabs.Length; i++)
         {
             if (prefabs[i].GetComponent<T>() != null)
             {
-                matchingIndex.Add(i);
+                _matchingIndex.Add(i);
             }
         }
 
-        if (id < 0 || id >= matchingIndex.Count)
+        if (id < 0 || id >= _matchingIndex.Count)
         {
             return null;
         }
-        int prefabIndex = matchingIndex[id];
+        int prefabIndex = _matchingIndex[id];
 
         foreach (GameObject go in _pools[prefabIndex])
         {

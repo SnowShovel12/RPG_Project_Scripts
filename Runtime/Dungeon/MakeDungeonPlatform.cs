@@ -17,8 +17,7 @@ public class MakeDungeonPlatform : MonoBehaviour
     private GameObject cameraCollider = null;
 
 #if UNITY_EDITOR
-    [ContextMenu("Generate Dungeon Tiles")]
-    void GenerateDungeonTiles()
+    public void GenerateDungeonTiles()
     {
         _center.x = (gridSize.x - 1) / 2f;
         _center.y = (gridSize.y - 1) / 2f;
@@ -36,8 +35,7 @@ public class MakeDungeonPlatform : MonoBehaviour
         }
     }
 
-    [ContextMenu("Generate Dungeon Walls")]
-    void GenerateDungeonWalls()
+    public void GenerateDungeonWalls()
     {
         _center.x = (gridSize.x - 1) / 2f;
         _center.y = (gridSize.y - 1) / 2f;
@@ -61,9 +59,14 @@ public class MakeDungeonPlatform : MonoBehaviour
         }
     }
 
-    [ContextMenu("Generate CameraCollider")]
-    void GenerateCameraCollider()
+    public void GenerateCameraCollider()
     {
+        Dungeon dungeon = GetComponent<Dungeon>();
+        if (dungeon == null)
+        {
+            Debug.LogWarning("Add \"Dungeon\" component first");
+            return;
+        }
         cameraCollider = new GameObject("CameraCollider", typeof(BoxCollider));
         cameraCollider.transform.parent = transform;
         int limitedX = gridSize.x > 3 ? gridSize.x - 2 : gridSize.x;
@@ -72,11 +75,10 @@ public class MakeDungeonPlatform : MonoBehaviour
         collider.isTrigger = true;
         collider.size = new Vector3(limitedX * tileSpace, 20, gridSize.y * tileSpace);
         collider.center = new Vector3(0, 10, 0);
-        GetComponent<Dungeon>().cameraConfinerVolume = collider;
+        dungeon.cameraConfinerVolume = collider;
     }
 
-    [ContextMenu("Remove Dungeon Tiles")]
-    void RemoveDungeonTiles()
+    public void RemoveDungeonTiles()
     {
         if (tiles)
         {
@@ -84,8 +86,7 @@ public class MakeDungeonPlatform : MonoBehaviour
         }
     }
 
-    [ContextMenu("Remove Dungeon Walls")]
-    void RemoveDungeonWalls()
+    public void RemoveDungeonWalls()
     {
         if (walls)
         {
@@ -93,8 +94,7 @@ public class MakeDungeonPlatform : MonoBehaviour
         }
     }
 
-    [ContextMenu("Remove CameraCollider")]
-    void RemoveCameraCollider()
+    public void RemoveCameraCollider()
     {
         if (cameraCollider)
         {
